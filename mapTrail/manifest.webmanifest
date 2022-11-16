@@ -1,0 +1,15 @@
+{
+  "background_color": "white",
+  "description": "Draw your movements as a set of dots on a Google Map",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/gYxrWReRGr9RV-g5UHKe6k-ylOPylohrcQ-hyBSMnEcZYpXgLtrqnRt9vDroWQpl2F_dztC4M4svFnxpGcGASETOru6C8RGDSvzR",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "The Map Trail",
+  "short_name": "mapTrail",
+  "start_url": "./index.html"
+}
