@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>My Life Management</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Dexie.JS Imports -->
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+</head>
+
+<body>
+  <!-- Navigation Drawer -->
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+        <a class="mdc-list-item" href="#" id="openSearchModal">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
+          <span class="mdc-list-item__text">Search</span>
+        </a>
+        <a class="mdc-list-item mdc-list-item--activated" href="./index.html" aria-current="page" tabindex="0"
+          id="openMyNote">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+          <span class="mdc-list-item__text">My Notes</span>
+        </a>
+        <a class="mdc-list-item" href="./chart.html" id="openStatistical">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              insert_chart
+            </span>
+          </i>
+          <span class="mdc-list-item__text">Statistical</span>
+        </a>
+        <a class="mdc-list-item" href="./news.html" id="openNews">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              newspaper
+            </span>
+          </i>
+          <span class="mdc-list-item__text">News</span>
+        </a>
+        <a class="mdc-list-item" href="./quotes.html" id="openQuotes">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              insert_emoticon
+            </span>
+          </i>
+          <span class="mdc-list-item__text">Random Quotes</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+
+  <!-- Main App Bar -->
+  <header class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+          aria-label="Open navigation menu">menu</button>
+        <span class="mdc-top-app-bar__title">My Life Management</span>
+      </section>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="mdc-top-app-bar--fixed-adjust">
+    <!-- Alert Dialog for filtering -->
+    <div class="mdc-banner" role="banner">
+      <div class="mdc-banner__content" role="alertdialog" aria-live="assertive">
+        <div class="mdc-banner__graphic-text-wrapper">
+        </div>
+        <div class="mdc-banner__actions">
+          <button type="button" class="mdc-button mdc-banner__primary-action">
+            <div class="mdc-button__ripple"></div>
+            <div class="mdc-button__label" id="removeFilter">Show All Notes</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- List of Notes -->
+    <ul class="mdc-list mdc-list--two-line" id="notes">
+    </ul>
+  </main>
+
+  <!-- New Note Dialog -->
+  <div class="mdc-dialog">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title"
+        aria-describedby="my-dialog-content">
+        <h2 class="mdc-dialog__title" id="my-dialog-title">New Note</h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          <!-- Choose type of notes -->
+          <label id="type" class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Type (eg: School, Work,...)</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="newNoteType">
+          </label>
+          <label id="title" class="mdc-text-field mdc-text-field-title mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Title</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="newNoteTitle">
+          </label>
+          <label id="text" class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Description</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="newNoteText">
+          </label>
+          <button id="startbutton">Take photo</button>
+          <input accept="image/*" class="file-input" type="file" onchange="encodeImageFileAsURL(this)" />
+          <br />
+          <img id="showImageNewDialog" />
+        </div>
+
+        <div class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Cancel</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="accept" id="saveBtn">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Save</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
+
+  <!-- Update Note Dialog -->
+  <div class="mdc-dialog updateDialog">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title"
+        aria-describedby="my-dialog-content">
+        <h2 class="mdc-dialog__title" id="my-dialog-title">Update Note</h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          <label id="updateType" class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Type (eg: School, Work,...)</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="editType">
+          </label>
+          <label id="updateTitle" class="mdc-text-field mdc-text-field-title mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Title</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="editTitle">
+          </label>
+          <label id="updateText" class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Description</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="editDes">
+          </label>
+          <button id="updatebutton">Take photo</button>
+          <input accept="image/*" class="file-input" type="file" onchange="encodeImageFileAsURL(this)" />
+          <br />
+          <img id="showImage" />
+        </div>
+
+        <div class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="delete" id="deleteBtn">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Delete</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="accept" id="editBtn">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Save</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
+
+  <!-- Search Notes Dialog -->
+  <div class="mdc-dialog searchDialog">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title"
+        aria-describedby="my-dialog-content">
+        <h2 class="mdc-dialog__title" id="my-dialog-title">Search</h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          <label id="query" class="mdc-text-field mdc-text-field--outlined">
+            <span class="mdc-notched-outline">
+              <span class="mdc-notched-outline__leading"></span>
+              <span class="mdc-notched-outline__notch">
+                <span class="mdc-floating-label" id="my-label-id">Search Key Term</span>
+              </span>
+              <span class="mdc-notched-outline__trailing"></span>
+            </span>
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id" id="searchNoteText">
+          </label>
+        </div>
+        <div class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Cancel</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="accept" id="searchBtn">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Search</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <button class="mdc-fab" aria-label="Favorite" id="openAddModal">
+    <div class="mdc-fab__ripple"></div>
+    <span class="mdc-fab__icon material-icons">add</span>
+  </button>
+
+  <!-- Capture image -->
+  <canvas id="canvas"> </canvas>
+  <video id="video">Video stream not available.</video>
+
+  <!-- Script Imports -->
+  <script src="serviceWorker.js"></script>
+  <script src="database.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
