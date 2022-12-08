@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>My Life Management</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Dexie.JS Imports -->
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+</head>
+
+<body>
+  <!-- Navigation Drawer -->
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+        <a class="mdc-list-item" href="#" id="openSearchModal">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
+          <span class="mdc-list-item__text">Search</span>
+        </a>
+        <a class="mdc-list-item mdc-list-item--activated" href="./index.html" aria-current="page" tabindex="0"
+          id="openMyNote">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+          <span class="mdc-list-item__text">My Notes</span>
+        </a>
+        <a class="mdc-list-item" href="./chart.html" id="openStatistical">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              insert_chart
+            </span>
+          </i>
+          <span class="mdc-list-item__text">Statistical</span>
+        </a>
+        <a class="mdc-list-item" href="./news.html" id="openNews">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              newspaper
+            </span>
+          </i>
+          <span class="mdc-list-item__text">News</span>
+        </a>
+        <a class="mdc-list-item" href="./quotes.html" id="openQuotes">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">
+            <span class="material-icons-outlined">
+              insert_emoticon
+            </span>
+          </i>
+          <span class="mdc-list-item__text">Random Quotes</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+
+  <!-- Main App Bar -->
+  <header class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+          aria-label="Open navigation menu">menu</button>
+        <span class="mdc-top-app-bar__title">Get Top News Quickly</span>
+      </section>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="mdc-top-app-bar--fixed-adjust">
+    <ul class="mdc-list" id="newsDisplay">
+    </ul>
+  </main>
+
+  <script>
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-BingApis-SDK': 'true',
+        'X-RapidAPI-Key': '93ccd99b95msh9e379e546cee80ep1cfbfdjsn63e7c2c9b7b7',
+        'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
+      }
+    };
+
+    let newsData = "https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw";
+    fetch(newsData, options)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // console.log(data);
+        data.value.forEach((item) => {
+          console.log(item);
+          let newsName = document.createElement("li");
+          newsName.classList.add("mdc-list-item");
+          newsName.setAttribute("tabindex", "0");
+          newsName.innerHTML = `<span class="mdc-list-item__ripple"></span>
+                            <span class="mdc-list-item__text"><a href="${item.url}">${item.name}</a></span>`;
+          // newsName.innerHTML = `<span class="mdc-list-item__ripple"></span>
+          // <span class="mdc-list-item__text">${item.name}</span>`;
+          //document.querySelector(".mdc-list content").appendChild(newsName);
+          document.querySelector("#newsDisplay").appendChild(newsName);
+          //console.log(newsName);
+          //console.log(item.name);
+          //console.log(document.querySelector(".mdc-list"));
+        });
+      }
+      )
+      .catch((err) => {
+        console.error(err);
+      });
+
+  </script>
+  <!-- Script Imports -->
+  <!-- <script src="serviceWorker.js"></script> -->
+  <!-- <script src="database.js"></script> -->
+  <script src="scriptForNavDrawer.js"></script>
+</body>
+
+</html>
