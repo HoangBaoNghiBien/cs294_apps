@@ -29,15 +29,16 @@ let chartController = (() => {
       notes.forEach((note) => {
         total++;
         s = note.type;
+        s = s.toLowerCase();
         console.log(s)
         switch (s) {
-          case "Work":
+          case "work":
             work++;
             break;
-          case "School":
+          case "school":
             school++;
             break;
-          case "Personal":
+          case "personal":
             personal++;
             break;
           default:
