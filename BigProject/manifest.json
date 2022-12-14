@@ -1,0 +1,20 @@
+{
+  "name": "Notes App by Hoang Bien",
+  "short_name": "Notes App",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "/BigProject/Images/Icons192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/BigProject/Images/Icons512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "display": "fullscreen",
+  "theme_color": "#aa8dd8",
+  "background_color": "#aa8dd8"
+}
