@@ -15,7 +15,21 @@
   <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
 
   <!-- PWA -->
-  <link rel="manifest" href="./manifest.webmanifest" />
+<!--   <link rel="manifest" href="manifest.json" /> -->
+<!--   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('Service Worker is registered');
+          })
+          .catch(err => {
+            console.log('error in registration');
+          })
+      });
+
+    }
+  </script> -->
 </head>
 
 <body>

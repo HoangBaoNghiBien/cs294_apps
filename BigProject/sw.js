@@ -1,12 +1,12 @@
 let urlToAdd = [
   "./",
   "./BigProject/index.html",
-  "./BigProject//manifest.json",
-  "./BigProject//chart.html",
-  "./BigProject//news.html",
-  "./BigProject//quotes.html",
-  './BigProject//style.css',
-  './BigProject//offline.html'
+  "./BigProject/manifest.json",
+  "./BigProject/chart.html",
+  "./BigProject/news.html",
+  "./BigProject/quotes.html",
+  './BigProject/style.css',
+  './BigProject/offline.html'
 ]
 
 
@@ -45,6 +45,16 @@ self.addEventListener('fetch', (event) => {
     )
   }
 });
+
+// self.addEventListener("fetch", (event) => {
+//   // Checks the cache to find matching request. 
+//   // If there is a cached version of the request, it returns the cached version, otherwise it makes a new request.
+//   event.respondWith(
+//     caches.match(event.request).then((res) => {
+//       return res || fetch(event.request);
+//     })
+//   );
+// });
 
 self.addEventListener('activate', (event) => {
 
